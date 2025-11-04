@@ -1,5 +1,33 @@
 import 'package:flutter/material.dart';
 
+  void reset(){
+  once = true;
+  mon = false;
+  tue = false;
+  wed = false;
+  thu = false;
+  fri = false;
+  sat = false;
+  sun = false;
+  RepeatScreen.repeatValues = ["Once"];
+}
+
+bool once = true;
+
+bool mon = false;
+
+bool tue = false;
+
+bool wed = false;
+
+bool thu = false;
+
+bool fri = false;
+
+bool sat = false;
+
+bool sun = false;
+
 class RepeatScreen extends StatefulWidget {
   const RepeatScreen({super.key});
 
@@ -10,21 +38,7 @@ class RepeatScreen extends StatefulWidget {
 }
 
 class _RepeatScreenState extends State<RepeatScreen> {
-  bool once = true;
-
-  bool mon = false;
-
-  bool tue = false;
-
-  bool wed = false;
-
-  bool thu = false;
-
-  bool fri = false;
-
-  bool sat = false;
-
-  bool sun = false;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

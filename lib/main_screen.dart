@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
                         title: Text(
                           alarm.time,
 
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold, color: Colors.purple),
                         ),
                         subtitle: Text(
                           alarm.label.isEmpty

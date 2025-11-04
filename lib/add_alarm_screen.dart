@@ -19,25 +19,36 @@ class _AddAlarmScreenState extends State<AddAlarmScreen> {
   TextEditingController labelController = TextEditingController();
 
   void _addAlarm() {
-    setState(() {
-      AddAlarmScreen.alarms.add(
-        Alarm(
-          id: AddAlarmScreen.alarms.length + 1,
-          time:
-              "${tempDuration.inHours.toString().padLeft(2, "0")}:${tempDuration.inMinutes.remainder(60).toString().padLeft(2, "0")}",
-          ringtone: 'Default',
-          repeat: RepeatScreen.repeatValues.isEmpty
-              ? ["Never"].toString().replaceAll('[', '').replaceAll(']', '')
-              : RepeatScreen.repeatValues
-                    .toString()
-                    .replaceAll('[', '')
-                    .replaceAll(']', ''),
-          isActive: true,
-          label: labelController.text,
-        ),
-      );
-      RepeatScreen.repeatValues = ["Once"];
-    });
+    RepeatScreen.repeatValues.isEmpty
+        ? ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              content: Text('Please select at least one repeat option')),
+          )
+        : setState(() {
+            AddAlarmScreen.alarms.add(
+              Alarm(
+                id: AddAlarmScreen.alarms.length + 1,
+                time:
+                    "${tempDuration.inHours.toString().padLeft(2, "0")}:${tempDuration.inMinutes.remainder(60).toString().padLeft(2, "0")}",
+                ringtone: 'Default',
+                repeat:
+                    RepeatScreen.repeatValues.toString() ==
+                        "[Mon, Tue, Wed, Thu, Fri, Sat, Sun]"
+                    ? [
+                        "Everyday",
+                      ].toString().replaceAll('[', '').replaceAll(']', '')
+                    : RepeatScreen.repeatValues
+                          .toString()
+                          .replaceAll('[', '')
+                          .replaceAll(']', ''),
+                isActive: true,
+                label: labelController.text,
+              ),
+            );
+            reset();
+            Navigator.pop(context);
+          });
   }
 
   @override
@@ -109,7 +120,6 @@ class _AddAlarmScreenState extends State<AddAlarmScreen> {
             ElevatedButton(
               onPressed: () {
                 _addAlarm();
-                Navigator.pop(context);
               },
               child: Text("Set alarm", style: TextStyle(fontSize: 20)),
             ),
