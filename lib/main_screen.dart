@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'dart:async';
-//import 'package:alarm/alarm.dart';
+import 'add_alarm_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,20 +9,19 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<int> alarms = [];
-  void _addAlarm() {
-    setState(() {
-      alarms.add(alarms.length + 1);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         shape: OvalBorder(),
         tooltip: 'Increment',
-        onPressed: _addAlarm,
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute<void>(builder: (context) => AddAlarmScreen()),
+          );
+          setState(() {});
+        },
         child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
       body: SafeArea(
@@ -34,28 +32,35 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               Text('Alarms', style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 30),
-
               Expanded(
                 child: ListView.builder(
-                  itemCount: alarms.length,
+                  itemCount: AddAlarmScreen.alarms.length,
                   itemBuilder: (context, index) {
+                    final alarm = AddAlarmScreen.alarms[index];
                     return Card(
                       child: SwitchListTile(
-                        value: true,
-                        onChanged: (bool value) {},
-                        activeThumbColor: Colors.deepPurple,
+                        value: alarm.isActive,
+                        onChanged: (bool value) {
+                          setState(() {
+                            alarm.isActive = value;
+                          });
+                        },
+                        activeThumbColor: Colors.purple,
                         title: Text(
-                          'Alarm ${alarms[index]}',
+                          alarm.time,
+
                           style: const TextStyle(fontSize: 20),
                         ),
-                        subtitle: const Text(
-                          '07:00 AM',
-                          style: TextStyle(fontSize: 16),
+                        subtitle: Text(
+                          alarm.label.isEmpty
+                              ? 'Alarm ${alarm.id}, repeats ${alarm.repeat.toString()}'
+                              : '${alarm.label}, repeats ${alarm.repeat.toString()}',
+
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     );
                   },
-                
                 ),
               ),
             ],
