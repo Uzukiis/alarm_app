@@ -49,14 +49,58 @@ class _MainScreenState extends State<MainScreen> {
                         title: Text(
                           alarm.time,
 
-                          style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold, color: Colors.purple),
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
                         ),
                         subtitle: Text(
                           alarm.label.isEmpty
-                              ? 'Alarm ${alarm.id}, repeats ${alarm.repeat.toString()}'
+                              ? 'Alarm, repeats ${alarm.repeat.toString()}'
                               : '${alarm.label}, repeats ${alarm.repeat.toString()}',
 
                           style: const TextStyle(fontSize: 16),
+                        ),
+                        secondary: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            padding: EdgeInsets.all(12),
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Delete Alarm'),
+                                content: const Text(
+                                  'Are you sure you want to delete this alarm?',
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        AddAlarmScreen.alarms.removeAt(index);
+                                      });
+                                      Navigator.pop(context, 'OK');
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: Icon(
+                            Icons.delete_outlined,
+                            size: 32,
+                            color: Colors.purple,
+                          ),
                         ),
                       ),
                     );

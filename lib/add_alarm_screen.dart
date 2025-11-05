@@ -31,7 +31,7 @@ class _AddAlarmScreenState extends State<AddAlarmScreen> {
                 id: AddAlarmScreen.alarms.length + 1,
                 time:
                     "${tempDuration.inHours.toString().padLeft(2, "0")}:${tempDuration.inMinutes.remainder(60).toString().padLeft(2, "0")}",
-                ringtone: 'Default',
+                ringtone: ringtoneSelected,
                 repeat:
                     RepeatScreen.repeatValues.toString() ==
                         "[Mon, Tue, Wed, Thu, Fri, Sat, Sun]"

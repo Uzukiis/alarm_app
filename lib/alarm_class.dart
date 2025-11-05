@@ -1,7 +1,7 @@
 class Alarm {
   final int id;
   final String time;
-  final String ringtone;
+  String ringtone;
   final String repeat;
   bool isActive;
   final String label;
